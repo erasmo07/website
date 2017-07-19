@@ -10,3 +10,7 @@ celerybeat-schedule/
 
 ansible/.pass
 ansible/roles/
+
+.idea
+*.iml
+

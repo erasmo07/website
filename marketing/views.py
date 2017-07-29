@@ -1,15 +1,9 @@
-from django.conf import settings
 from django.core.cache import cache
-from django.views.generic import FormView, TemplateView
-
-from .forms import SlackInviteForm
-from .tasks import send_slack_invite
+from django.views.generic import TemplateView
 
 
-class Index(FormView):
+class Index(TemplateView):
     template_name = 'marketing/index.html'
-    form_class = SlackInviteForm
-    success_url = '/'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -18,14 +12,6 @@ class Index(FormView):
             github_repos=cache.get('github_projects', None),
         )
         return context
-
-    def post(self, request, *args, **kwargs):
-        form = self.get_form()
-        if form.is_valid():
-            send_slack_invite.delay(form.data['email'],
-                                    channels=settings.SLACK_JOIN_CHANNELS)
-            return self.form_valid(form)
-        return self.form_invalid(form)
 
 
 class TermsOfService(TemplateView):

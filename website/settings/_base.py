@@ -95,6 +95,7 @@ INSTALLED_APPS = [
     'core',
     'blog',
     'marketing',
+    'slack',
 ]
 
 LANGUAGE_CODE = 'en-us'
